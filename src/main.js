@@ -4,15 +4,29 @@ import { fetchProductsList } from './helpers/fetchFunctions';
 import { createProductElement } from './helpers/shopFunctions';
 
 document.querySelector('.cep-button').addEventListener('click', searchCep);
+const sectionProducts = document.querySelector('.products');
+// const sectionContainer = document.querySelector('.container');
+
+const createLoading = () => {
+  const loadingDiv = document.createElement('div');
+  loadingDiv.className = 'loading';
+  loadingDiv.textContent = 'carregando...';
+  sectionProducts.appendChild(loadingDiv);
+};
 
 const printElements = async () => {
   const result = await fetchProductsList('computador');
-  const createProduct = document.querySelector('.products');
   result.forEach((product) => {
-    createProduct.appendChild(createProductElement(product));
+    sectionProducts.appendChild(createProductElement(product));
   });
   return result;
 };
 
-// createProductElement();
-printElements();
+const removeLoading = () => {
+  const capturingLoading = document.querySelector('.loading');
+  capturingLoading.remove();
+};
+
+createLoading();
+await printElements();
+removeLoading();
