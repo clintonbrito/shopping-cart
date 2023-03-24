@@ -5,7 +5,6 @@ import { createProductElement } from './helpers/shopFunctions';
 
 document.querySelector('.cep-button').addEventListener('click', searchCep);
 const sectionProducts = document.querySelector('.products');
-// const sectionContainer = document.querySelector('.container');
 
 const createLoading = () => {
   const loadingDiv = document.createElement('div');
@@ -14,12 +13,12 @@ const createLoading = () => {
   sectionProducts.appendChild(loadingDiv);
 };
 
-const printElements = async () => {
-  const result = await fetchProductsList('computador');
-  result.forEach((product) => {
-    sectionProducts.appendChild(createProductElement(product));
-  });
-  return result;
+const createError = () => {
+  const errorParagraph = document.createElement('p');
+  errorParagraph.className = 'error';
+  errorParagraph
+    .textContent = 'Algum erro ocorreu, recarregue a página e tente novamente';
+  sectionProducts.appendChild(errorParagraph);
 };
 
 const removeLoading = () => {
@@ -27,6 +26,41 @@ const removeLoading = () => {
   capturingLoading.remove();
 };
 
-createLoading();
+const printElements = async () => {
+  createLoading();
+  try {
+    const result = await fetchProductsList('computador');
+    removeLoading();
+    result.forEach((product) => {
+      sectionProducts.appendChild(createProductElement(product));
+    });
+    return result;
+  } catch (_e) {
+    removeLoading();
+    createError();
+  }
+};
+
+// const printElements = async () => {
+//   const result = await fetchProductsList('computador');
+//   result.forEach((product) => {
+//     sectionProducts.appendChild(createProductElement(product));
+//   });
+//   return result;
+// };
+
+// const removeLoading = () => {
+//   try {
+//     if (!removeLoading) {
+//       throw new Error('Algum erro ocorreu, recarregue a página e tente novamente');
+//     }
+//     const capturingLoading = document.querySelector('.loading');
+//     capturingLoading.remove();
+//   } catch (err) {
+//     throw new Error(err.message);
+//   }
+// };
+
+// createLoading();
+// removeLoading();
 await printElements();
-removeLoading();
