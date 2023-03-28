@@ -1,6 +1,6 @@
 import { searchCep } from './helpers/cepFunctions';
 import './style.css';
-import { fetchProductsList } from './helpers/fetchFunctions';
+import { fetchProductsList, fetchProduct } from './helpers/fetchFunctions';
 import { createProductElement } from './helpers/shopFunctions';
 
 document.querySelector('.cep-button').addEventListener('click', searchCep);
@@ -64,3 +64,7 @@ const printElements = async () => {
 // createLoading();
 // removeLoading();
 await printElements();
+
+// Tive o auxílio do Summer Victor Matias para resolver o 5º requisito.
+
+fetchProduct('MLB1405519561');
