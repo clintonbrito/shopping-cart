@@ -1,7 +1,8 @@
 import { searchCep } from './helpers/cepFunctions';
 import './style.css';
 import { fetchProductsList, fetchProduct } from './helpers/fetchFunctions';
-import { createProductElement } from './helpers/shopFunctions';
+import { createProductElement, createCartProductElement } from './helpers/shopFunctions';
+import { saveCartID } from './helpers/cartFunctions';
 
 document.querySelector('.cep-button').addEventListener('click', searchCep);
 const sectionProducts = document.querySelector('.products');
@@ -26,6 +27,15 @@ const removeLoading = () => {
   capturingLoading.remove();
 };
 
+const addCart = async (event) => {
+  const productId = event.target.parentNode.firstChild.innerHTML;
+  saveCartID(productId);
+  const productObj = await fetchProduct(productId);
+  const createCartElements = createCartProductElement(productObj);
+  const cartLocation = document.querySelector('.cart__products');
+  cartLocation.appendChild(createCartElements);
+};
+
 const printElements = async () => {
   createLoading();
   try {
@@ -34,6 +44,8 @@ const printElements = async () => {
     result.forEach((product) => {
       sectionProducts.appendChild(createProductElement(product));
     });
+    const productAddButton = document.querySelectorAll('.product__add');
+    productAddButton.forEach((element) => element.addEventListener('click', addCart));
     return result;
   } catch (_e) {
     removeLoading();
@@ -66,5 +78,3 @@ const printElements = async () => {
 await printElements();
 
 // Tive o auxílio do Summer Victor Matias para resolver o 5º requisito.
-
-fetchProduct('MLB1405519561');

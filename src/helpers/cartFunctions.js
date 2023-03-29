@@ -31,3 +31,13 @@ export const removeCartID = (id) => {
   cartProducts.splice(indexProduct, 1);
   localStorage.setItem('cartProducts', JSON.stringify(cartProducts));
 };
+
+// export const addToCart = () => {
+// const resultFetchProduct = await fetchProduct('???');
+// const addingCartItem = createCartProductElement(resultFetchProduct);
+// const parentNodeCart = document.getElementsByClassName('cart__products');
+// parentNodeCart.appendChild(addingCartItem);
+// };
+
+// const productAddButton = document.getElementsByClassName('product__add');
+// productAddButton.addEventListener('click', createCartProductElement('MLB1405519561'));
