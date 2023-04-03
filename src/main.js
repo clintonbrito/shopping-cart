@@ -95,8 +95,8 @@ const rescueCartProducts = getSavedCartIDs();
 const printCart = () => {
   rescueCartProducts.map((product) => Promise.all([fetchProduct(product)])
     .then((result) => {
-      result.forEach((promise) => {
-        const newCartProduct = createCartProductElement(promise);
+      result.forEach((resolvedPromise) => {
+        const newCartProduct = createCartProductElement(resolvedPromise);
         cartProducts.appendChild(newCartProduct);
       });
     }));
