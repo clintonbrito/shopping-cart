@@ -2,7 +2,7 @@ import { searchCep } from './helpers/cepFunctions';
 import './style.css';
 import { fetchProductsList, fetchProduct } from './helpers/fetchFunctions';
 import { createProductElement, createCartProductElement } from './helpers/shopFunctions';
-import { saveCartID } from './helpers/cartFunctions';
+import { saveCartID, getSavedCartIDs } from './helpers/cartFunctions';
 
 document.querySelector('.cep-button').addEventListener('click', searchCep);
 const sectionProducts = document.querySelector('.products');
@@ -78,3 +78,28 @@ const printElements = async () => {
 await printElements();
 
 // Tive o auxílio do Summer Victor Matias para resolver o 5º requisito.
+
+// export const addToCart = async () => {
+//   const resultFetchProduct = await fetchProduct('???');
+//   const addingCartItem = createCartProductElement(resultFetchProduct);
+//   const parentNodeCart = document.getElementsByClassName('cart__products');
+//   parentNodeCart.appendChild(addingCartItem);
+// };
+
+// const productAddButton = document.getElementsByClassName('product__add');
+// productAddButton.addEventListener('click', createCartProductElement('MLB1405519561'));
+
+const cartProducts = document.querySelector('.cart__products');
+const rescueCartProducts = getSavedCartIDs();
+
+const printCart = () => {
+  rescueCartProducts.map((product) => Promise.all([fetchProduct(product)])
+    .then((result) => {
+      result.forEach((promise) => {
+        const newCartProduct = createCartProductElement(promise);
+        cartProducts.appendChild(newCartProduct);
+      });
+    }));
+};
+
+printCart();
